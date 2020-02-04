@@ -1,0 +1,4 @@
+/__pycache__
+/.pytest_cache
+.~lock.automated-results.csv#
+.~lock.automated-results.ods#
