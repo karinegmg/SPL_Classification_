@@ -15,3 +15,13 @@ def getLinuxF():
     
     return featuresL
 
+def getFeatures():
+    featuresL = []
+    fileName = 'features_soletta.csv'
+    featuresFile = open(fileName, 'r')
+    for f in featuresFile:
+        #print(f.strip())
+        featName = f.strip()
+        #print(featName)
+        featuresL.append(featName)
+    return featuresL

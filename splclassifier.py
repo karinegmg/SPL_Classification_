@@ -21,6 +21,7 @@ class SPLClassifier:
         #Classificação caso só haja remoções no arquivo
         if(len(removed) > 0 and len(added) == 0):
             if(file_type == 'kconfig'):
+                
                 return self.kconfigClass(removed,'Removed')
             else:
                 return self.classifyMakefile(removed,'Removed',features)
@@ -92,8 +93,12 @@ class SPLClassifier:
                         
 
     def kconfigClass(self,item, check):
+        result = []
+        #print('NOT LIST')
         if(type(item) != list):
+            
             item = (item[0], item[1].strip())
+            #print(str(item[1]).replace('\t',''))
             if(check == "Removed"):
                 if(re.match(r'^menu \"w+\"', item[1]) != None):
                     return ("Remove","Menu")
@@ -105,7 +110,7 @@ class SPLClassifier:
                     return ("Remove","Depends")
                 elif(re.match(r'^default \S', item[1]) != None):
                     return ("Remove","Default")
-                elif(re.match(r'^select \S+', item[1]) != None):
+                elif(re.match(r'^select \S+', item[1] != None)):
                     return ("Remove","Select")
             elif(check == "Added"):
                 if(re.match(r'^menu \"w+\"', item[1]) != None):
@@ -113,7 +118,8 @@ class SPLClassifier:
                 elif(re.match(r'^config \S+', item[1]) != None):
                     return ("Added","Feature")
                 elif(re.match(r'^depends on \S+', item[1]) != None):
-                    return ("New","Depends")
+                    #Mudei aqui: de New pra Added
+                    return ("Added","Depends")
                 elif(re.match(r'^default \S', item[1]) != None):
                     if("if" in item[1]):
                         return ("Added","Default") # Possiveis = New, Added Remove, Modify OBS: Added para "if" - New sem "if"
@@ -122,7 +128,12 @@ class SPLClassifier:
                 elif(re.match(r'^select \S+', item[1]) != None):
                     # Verificar se é new ou added
                     # return("New", "Select")
-                    if(re.match(r'^select \S+', self.source_code[item[0]-2]) != None):
+                    print('printaaaa primeiro aquiiiiiii >{}<'.format(self.source_code[item[0]-2].strip()))
+                    if(re.match(r'^select \S+', self.source_code[item[0]-2].strip()) != None):
+                        partial = ("Added","Select")
+                        if(partial not in result):
+                            print('ADDDDDDDD NO PARTIAL')
+                            result.append(partial)
                         return ("Added","Select") # Possiveis = New, Added, Remove e Modify OBS: Added para Anterior havendo select
                                                 #                                              New se não houver select antes
                     else:
@@ -148,7 +159,8 @@ class SPLClassifier:
                     return ("Modify","Select")
                 
         else:
-            result = []
+            #result = []
+            
             if(check == 'Added'):
                 for line in item:
                     line = (line[0], line[1].strip())
@@ -166,7 +178,8 @@ class SPLClassifier:
                             if(partial not in result):
                                 result.append(partial) # Possiveis = New, Added, Remove e Modify OBS: Added && para junção - New sem &&
                         else:
-                            partial = ("Added","Depends")
+                            #MUDEI AQUI: DE ADD PRA NEW
+                            partial = ("New","Depends")
                             if(partial not in result):
                                 result.append(partial)
                     elif(re.match(r'^default \S', line[1]) != None):
@@ -181,6 +194,7 @@ class SPLClassifier:
                     elif(re.match(r'^select \S+', line[1]) != None):
                         # Verificar se é new ou added
                         # return("New", "Select")
+                        print('printaaaa aquiiiiiii {}'.format(self.source_code[line[0]-2]))
                         if(re.match(r'^select \S+', self.source_code[line[0]-2]) != None):
                             partial = ("Added","Select")
                             if(partial not in result):
@@ -191,6 +205,7 @@ class SPLClassifier:
                             if(partial not in result):
                                 result.append(partial)
             else:
+                
                 for line in item:
                     line = (line[0], line[1].strip())
                     if(re.match(r'^menu \"w+\"', line[1]) != None):
@@ -213,7 +228,7 @@ class SPLClassifier:
                         partial = ("Remove","Default")
                         if(partial not in result):
                             result.append(partial)
-                    elif(re.match(r'^default \S', line[1]) != None):
+                    elif(re.match(r'^select \S', line[1]) != None):
                         partial = ("Remove","Select")
                         if(partial not in result):
                             result.append(partial)
@@ -239,7 +254,7 @@ class SPLClassifier:
                 elif(re.match(r'^ifeq \S*', item[1]) != None or re.match(r'^ifneq \S*', item[1]) != None or re.match(r'^ifdef \S*', item[1]) != None):
                     return ("Added","ifdef")
                 else:
-                    print(("Added","build"))
+                    #print(("Added","build"))
                     return ("Added","build")
 
             else:
