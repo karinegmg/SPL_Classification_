@@ -110,7 +110,7 @@ class SPLClassifier:
                     return ("Remove","Depends")
                 elif(re.match(r'^default \S', item[1]) != None):
                     return ("Remove","Default")
-                elif(re.match(r'^select \S+', item[1] != None)):
+                elif(re.match(r'^select \S+', item[1]) != None):
                     return ("Remove","Select")
             elif(check == "Added"):
                 if(re.match(r'^menu \"w+\"', item[1]) != None):
@@ -128,11 +128,11 @@ class SPLClassifier:
                 elif(re.match(r'^select \S+', item[1]) != None):
                     # Verificar se é new ou added
                     # return("New", "Select")
-                    print('printaaaa primeiro aquiiiiiii >{}<'.format(self.source_code[item[0]-2].strip()))
+                    
                     if(re.match(r'^select \S+', self.source_code[item[0]-2].strip()) != None):
                         partial = ("Added","Select")
                         if(partial not in result):
-                            print('ADDDDDDDD NO PARTIAL')
+                            
                             result.append(partial)
                         return ("Added","Select") # Possiveis = New, Added, Remove e Modify OBS: Added para Anterior havendo select
                                                 #                                              New se não houver select antes
@@ -192,9 +192,7 @@ class SPLClassifier:
                             if(partial not in result):
                                 result.append(partial)
                     elif(re.match(r'^select \S+', line[1]) != None):
-                        # Verificar se é new ou added
-                        # return("New", "Select")
-                        print('printaaaa aquiiiiiii {}'.format(self.source_code[line[0]-2]))
+                        
                         if(re.match(r'^select \S+', self.source_code[line[0]-2]) != None):
                             partial = ("Added","Select")
                             if(partial not in result):
