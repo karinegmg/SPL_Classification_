@@ -1,0 +1,31 @@
+Hash,author,KC-Tags,MF-Tags,AM-Tags
+0c11b353b8e8a33a89c2ff6e4e7d412a78ecdec6,Flavio Ceolin,no-tag-changed,no-tag-changed,['changeAsset' | 'addAsset']
+9b865583a8c3a82b7239bdc5cb4779a226e4194b,Tomaz Canabrava,no-tag-changed,[('Added' | 'ifdef') | ('Added' | 'Mapping') | ('Added' | 'build')],['changeAsset']
+3f95a2bef52b4acd653afc4ec1f28e39ab2b685b,Leandro Dorileo,no-tag-changed,[('Modify' | 'build')],no-tag-changed
+c6dcfe5b0df73dd341ef955a171fab8648495b9c,Leandro Dorileo,no-tag-changed,[('Added' | 'build') | ('Modify' | 'build') | ('Modify' | 'ifdef')],['changeAsset']
+45f3d4c2f9028862f2de7944451ee64f729819fc,Bruno Dilly,no-tag-changed,no-tag-changed,['removeAsset' | 'addAsset']
+1d3b9724d4402fb87be3de2a579a3984222413da,Guilherme Iscaro de Godoy,no-tag-changed,no-tag-changed,['changeAsset' | 'addAsset']
+da9e39a186a2d8eec896da6fff7123ef456fdaf4,Gustavo Lima Chaves,[('Added' | 'Select')],[('Added' | 'Mapping') | ('Added' | 'build')],['addAsset']
+34ddf12cabef8dcb8ce88998dce71e3661eb5cb2,Leandro Pereira,no-tag-changed,[('Modify' | 'build')],['changeAsset' | 'addAsset' | 'removeAsset']
+6b7d59ebec0c9fa3be5102dbefee293b70323682,Bruno Dilly,no-tag-changed,no-tag-changed,['changeAsset' | 'addAsset']
+83cdfb5bb874861f4165107f364aa68035e188d9,Guilherme Iscaro de Godoy,[('Added' | 'Depends')],no-tag-changed,no-tag-changed
+15fd9922607d99a3d09a0a42ed84aeb0b43d0899,Leandro Dorileo,no-tag-changed,[('Modify' | 'build')],no-tag-changed
+611d13fdcf9df2636cbc0b64cf35c36d97621b44,Gustavo Lima Chaves,no-tag-changed,[('Modify' | 'Mapping')],['addAsset' | 'changeAsset']
+3c6aa6d2057426e84ba31c98bea51a478fdbeb72,Caio Marcelo de Oliveira Filho,no-tag-changed,no-tag-changed,['changeAsset' | 'addAsset']
+2d39b630bf887702b53471ded8b2271f37ac94a1,Ulisses Furquim,[('Added' | 'Depends') | ('Modify' | 'Default')],no-tag-changed,no-tag-changed
+3f68683080ea2cf4394a3fdbb95304e7b622c86b,Gustavo Sverzut Barbieri,no-tag-changed,[('Added' | 'build')],no-tag-changed
+79fb5e70ccd8c6f90272ff95611a17cf3fa1b458,Bruno Dilly,no-tag-changed,[('Added' | 'build') | ('Modify' | 'Mapping')],['changeAsset' | 'addAsset']
+8240e4ca5d170d7bbdbaa598f396b967fb8f425e,Murilo Belluzzo,no-tag-changed,[('Modify' | 'build')],['changeAsset']
+b1aadd0258f8ebacb599c433d4706fd42bd1f4ee,Leandro Dorileo,no-tag-changed,[('Modify' | 'build')],no-tag-changed
+8c73c7bb127f06b2de5c9da429244051728c472d,Iván Briano,no-tag-changed,[('Modify' | 'build')],['changeAsset']
+bab5c0767417253e56914030f9a4ced8321f4755,Murilo Belluzzo,[('Added' | 'Feature') | ('New' | 'Default') | ('Added' | 'Depends')],[('Added' | 'ifdef') | ('Added' | 'Mapping') | ('Added' | 'build')],['addAsset' | 'changeAsset']
+4e6e90071a8c0aeb349bb2eb907f8d732ea23321,Bruno Dilly,no-tag-changed,no-tag-changed,['changeAsset' | 'addAsset']
+9e940f5a975a8b1bdbc14b11c352932f419cf521,Leandro Dorileo,no-tag-changed,[('Modify' | 'build')],['changeAsset']
+326e41fc772b6c3de77a82ef7e7660ded8181b09,Ricardo de Almeida Gonzaga,no-tag-changed,[('Modify' | 'build')],no-tag-changed
+3afd24e6eba488cef1a38d2fb356f19c562e6f0d,Flavio Ceolin,no-tag-changed,[('Added' | 'build') | ('Added' | 'Mapping')],['changeAsset' | 'addAsset']
+28c8bc229b8dd3f358b174cb2e5f14bf7780ef04,Otavio Pontes,no-tag-changed,no-tag-changed,['changeAsset' | 'addAsset']
+3e6c55022c35108a4ca3880f8a2a91c3d1bd1320,Murilo Belluzzo,no-tag-changed,no-tag-changed,['changeAsset']
+ed413406e37c501ffd4544441085d264696d162e,Bruno Dilly,no-tag-changed,[('Added' | 'build') | ('Modify' | 'build')],['changeAsset']
+6dca09f5337af4ac45aba08b0a8a0cae2a4e3aef,Gabriel Schulhof,no-tag-changed,[('Remove' | 'build') | ('Modify' | 'build')],no-tag-changed
+454dee372f04a7cda8495a2a8bb8e8b9a0136f92,Bruno Dilly,no-tag-changed,[('Added' | 'build')],no-tag-changed
+ef8b89bfdd312af3b449778bdabc33af3424ef69,Guilherme Iscaro de Godoy,no-tag-changed,no-tag-changed,['changeAsset' | 'addAsset']
