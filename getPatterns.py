@@ -1,34 +1,37 @@
-filename = 'saida_rc_corretos.csv'
-file_tags = open(filename, 'r')
+fileName = 'saida_rc_corretos.csv'
 
+def getPatterns(queryList):
+    file_tags = open(fileName, 'r')
+    count = 0
+    dictTags = {}
+    result = 'result = '
+    for commit in file_tags:
+        lines = commit.split(',')
+        hashCommit = lines[0][0:10]
+        tags = lines[2] + lines[3] + lines[4]
+        dictTags[hashCommit] = tags
 
-dict_fm = {}
-dict_ck = {}
-dict_am = {}
-lines = []
-queryExampleCK = "('Modify' | 'Mapping')"
-queryExampleFM = "('Added' | 'Feature')"
-count = 0
-
-for commit in file_tags:
-    lines = commit.split(',')
-    hashCommit = lines[0][0:10]
-    #print(hashCommit)
-    tags_fm = lines[2]
-    tags_ck = lines[3]
-    tags_am = lines[4]
+    for key, v in dictTags.items():
+        aux = 0
+        for q in queryList:
+            if(q in v):
+                aux = aux + 1
+            if(aux == len(queryList)):
+                count = count + 1
+                #print('match: ', v)
     
-    dict_fm[hashCommit] = tags_fm
-    dict_ck[hashCommit] = tags_ck
-    dict_am[hashCommit] = tags_am
+    result = result + str(count)
+        
+    return result
 
-for key, v in dict_fm.items():
-    if(queryExampleFM in v):
-        if(queryExampleCK in dict_ck[key]):
-            print(key, v, dict_ck[key])
-            count = count + 1
-        #print(v)
-print(count)
+'''
+Change Type = Added, Modify, Remove, New
+Tags FM = ('Added' | 'Feature'), ('Added' | 'Depends'), ('Added' | 'Default'), ('Added' | 'Select')
+Tags CK = ('Modify' | 'Mapping'), ('Modify' | 'ifdef'), ('Modify' | 'build')]
+Tags AM = 'changeAsset', 'addAsset', 'removeAsset'
+'''
+# Query Example: How often commits present changes which add feature in Kconfig and a mapping in Makefile?
+queryList = ["('Added' | 'Feature')", "('Modify' | 'Mapping')"]
+query = getPatterns(queryList)
 
-
-
+print(query)
