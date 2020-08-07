@@ -19,7 +19,7 @@ def getPatterns(queryList):
             if(aux == len(queryList)):
                 count = count + 1
                 #print('match: ', v)
-    result = '{} commits ({:.2f} por cento) apresentam as modificações classificadas com as tags {}'.format(count, count/qtd_remainingCommits, queryList)
+    result = '{} commits ({:.2f} %) apresentam as modificações classificadas com as tags {}'.format(count, (count/qtd_remainingCommits)*100, queryList)
         
     return result
 
@@ -30,7 +30,7 @@ Tags CK = ('Modify' | 'Mapping'), ('Modify' | 'ifdef'), ('Modify' | 'build')]
 Tags AM = 'changeAsset', 'addAsset', 'removeAsset'
 '''
 # Query Example: How often commits present changes which add feature in Kconfig and a mapping in Makefile?
-queryList = ["('Added' | 'Feature')", "('Modify' | 'Mapping')"]
+queryList = ["('Added' | 'Feature')", "('Added' | 'Mapping')"]
 query = getPatterns(queryList)
 
 print(query)
