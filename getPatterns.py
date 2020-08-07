@@ -1,10 +1,10 @@
 fileName = 'saida_rc_corretos.csv'
+qtd_remainingCommits = 500
 
 def getPatterns(queryList):
     file_tags = open(fileName, 'r')
     count = 0
     dictTags = {}
-    result = 'result = '
     for commit in file_tags:
         lines = commit.split(',')
         hashCommit = lines[0][0:10]
@@ -19,8 +19,7 @@ def getPatterns(queryList):
             if(aux == len(queryList)):
                 count = count + 1
                 #print('match: ', v)
-    
-    result = result + str(count)
+    result = '{} commits ({:.2f} por cento) apresentam as modificações classificadas com as tags {}'.format(count, count/qtd_remainingCommits, queryList)
         
     return result
 
