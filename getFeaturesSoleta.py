@@ -4,7 +4,7 @@ pathSoletta = '../../spl_repositorios/soletta'
 
 for commit in RepositoryMining(pathSoletta).traverse_commits():
     
-    featuresSoletta = open('featuresSoletta.csv', 'a')
+    featuresSoletta = open('featuresSolettaTeste.csv', 'a')
 
     for modification in commit.modifications:
         featuresSol = []
@@ -15,7 +15,8 @@ for commit in RepositoryMining(pathSoletta).traverse_commits():
 
             for line in listDiff:
 
-                if('+config ' in line):
+                if('+config ' in line or '+ config' in line):
+                    print(line)
                     feature = line[8:]
                     
                     if(feature in featuresSol):

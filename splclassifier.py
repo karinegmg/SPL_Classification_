@@ -20,7 +20,8 @@ class SPLClassifier:
 
         #Classificação caso só haja remoções no arquivo
         if(len(removed) > 0 and len(added) == 0):
-            if(file_type == 'kconfig'):
+            if('kconfig' in file_type):
+                #print(file_type)
                 
                 return self.kconfigClass(removed,'Removed')
             else:
@@ -28,7 +29,8 @@ class SPLClassifier:
 
         #Classificação caso só haja adições no arquivo
         elif(len(added) > 0 and len(removed) == 0):
-            if(file_type == 'kconfig'):
+            #print(file_type)
+            if('kconfig' in file_type):
                 return self.kconfigClass(added,'Added')
             else:
                 return self.classifyMakefile(added,'Added',features)
@@ -104,7 +106,7 @@ class SPLClassifier:
                     return ("Remove","Menu")
                 elif(re.match(r'^config \S+', item[1]) != None):
                     return ("Remove","Feature")
-                elif((re.match(r'^bool \"w+\"', item[1]) != None) or (re.match(r'^option \"w+\"', item[1]) != None) or (re.match(r'^prompt \"w+\"', item[1]) != None)):
+                elif((re.match(r'^bool \"w+\"', item[1]) != None) or (re.match(r'^option \"w+\"', item[1]) != None) or (re.match(r'^prompt \S+', item[1].strip()) != None)):
                     return ("Modify","Feature")
                 elif(re.match(r'^depends on \S+', item[1]) != None):
                     return ("Remove","Depends")
@@ -141,11 +143,11 @@ class SPLClassifier:
 
             else:
                 # MUDAR DEFAULT PRA "\S+" E USAR STRIP DO JEITO COMO ESTÁ AQUI EM CIMA PARA REGEX FUNCIONAR
-                if(re.match(r'^menu \"w+\"', item[1]) != None):
+                if(re.match(r'^menu \"w+\"', item[1]) != None or re.match(r'^source \S+', item[1]) != None):
                     return ("Modify","Menu")
                 elif(re.match(r'^config \S+', item[1]) != None):
                     return ("Modify","Feature")
-                elif((re.match(r'^bool \"w+\"', item[1]) != None) or (re.match(r'^option \"w+\"', item[1]) != None) or (re.match(r'^prompt \"w+\"', item[1]) != None)):
+                elif((re.match(r'^bool \"w+\"', item[1]) != None) or (re.match(r'^option \"w+\"', item[1]) != None) or (re.match(r'^prompt \S+', item[1].strip()) != None)):
                     return ("Modify","Feature")
                 elif(re.match(r'^depends on \S+', item[1]) != None):
                     if("&&" in item[1]):
@@ -164,7 +166,9 @@ class SPLClassifier:
             if(check == 'Added'):
                 for line in item:
                     line = (line[0], line[1].strip())
-                    if(re.match(r'^menu \"w+\"', line[1]) != None):
+                    #print(str(line))
+                    #if(re.match(r'^menu \"w+\"', line[1]) != None):
+                    if(re.match(r'^menu \S+', line[1]) != None or re.match(r'^source \S+', line[1]) != None):
                         partial = ("Added","Menu")
                         if(partial not in result):
                             result.append(partial)
@@ -192,8 +196,10 @@ class SPLClassifier:
                             if(partial not in result):
                                 result.append(partial)
                     elif(re.match(r'^select \S+', line[1]) != None):
-                        
-                        if(re.match(r'^select \S+', self.source_code[line[0]-2]) != None):
+                        #print('entrou aqui')
+                        #print(str(self.source_code[line[0]-2]))
+                        #print(line[1])
+                        if(re.match(r'^select \S+', self.source_code[line[0]-2].strip()) != None):
                             partial = ("Added","Select")
                             if(partial not in result):
                                 result.append(partial) # Possiveis = New, Added, Remove e Modify OBS: Added para Anterior havendo select
@@ -214,7 +220,7 @@ class SPLClassifier:
                         partial = ("Remove","Feature")
                         if(partial not in result):
                             result.append(partial)
-                    elif((re.match(r'^bool \"w+\"', line[1]) != None) or (re.match(r'^option \"w+\"', line[1]) != None) or (re.match(r'^prompt \"w+\"', line[1]) != None)):
+                    elif((re.match(r'^bool \S+', line[1]) != None) or (re.match(r'^option \"w+\"', line[1]) != None) or (re.match(r'^prompt \S+', line[1].strip()) != None)):
                         partial = ("Modify","Feature")
                         if(partial not in result):
                             result.append(partial)
@@ -238,7 +244,10 @@ class SPLClassifier:
             if(check == "Removed"):
                 res1 = re.search(r'^\S*\$\((.*)\)\S* := \S*', item[1])
                 res2 = re.search(r'^\S*\$\((.*)\)\S* \+= \S*', item[1])
-                if((res1 != None and res1.group(1) in features) or (res2 != None and res2.group(1) in features)):
+                res3 = re.search(r'^\S*\$\((.*)\)\S*:= \S*', item[1].strip().replace('\t',''))
+                res4 = re.search(r'^\S*\$\((.*)\)\S*\+= \S*', item[1].strip().replace('\t',''))
+
+                if((res1 != None and res1.group(1) in features) or (res2 != None and res2.group(1) in features) or (res3 != None and res3.group(1) in features) or (res4 != None and res4.group(1) in features)):
                     return ("Remove","Mapping")
                 elif(re.match(r'^ifeq \S*', item[1]) != None or re.match(r'^ifneq \S*', item[1]) != None or re.match(r'^ifdef \S*', item[1]) != None):
                     return ("Remove","ifdef")
@@ -247,7 +256,10 @@ class SPLClassifier:
             elif(check == "Added"):
                 res1 = re.search(r'^\S*\$\((.*)\)\S* := \S*', item[1])
                 res2 = re.search(r'^\S*\$\((.*)\)\S* \+= \S*', item[1])
-                if((res1 != None and res1.group(1) in features) or (res2 != None and res2.group(1) in features)):
+                res3 = re.search(r'^\S*\$\((.*)\)\S*:= \S*', item[1].strip().replace('\t',''))
+                res4 = re.search(r'^\S*\$\((.*)\)\S*\+= \S*', item[1].strip().replace('\t',''))
+
+                if((res1 != None and res1.group(1) in features) or (res2 != None and res2.group(1) in features) or (res3 != None and res3.group(1) in features) or (res4 != None and res4.group(1) in features)):
                     return ("Added","Mapping")
                 elif(re.match(r'^ifeq \S*', item[1]) != None or re.match(r'^ifneq \S*', item[1]) != None or re.match(r'^ifdef \S*', item[1]) != None):
                     return ("Added","ifdef")
@@ -258,7 +270,9 @@ class SPLClassifier:
             else:
                 res1 = re.search(r'^\S*\$\((.*)\)\S* := \S*', item[1])
                 res2 = re.search(r'^\S*\$\((.*)\)\S* \+= \S*', item[1])
-                if((res1 != None and res1.group(1) in features) or (res2 != None and res2.group(1) in features)):
+                res3 = re.search(r'^\S*\$\((.*)\)\S*:= \S*', item[1].strip().replace('\t',''))
+                res4 = re.search(r'^\S*\$\((.*)\)\S*\+= \S*', item[1].strip().replace('\t',''))
+                if((res1 != None and res1.group(1) in features) or (res2 != None and res2.group(1) in features) or (res3 != None and res3.group(1) in features) or (res4 != None and res4.group(1) in features)):
                     # print(res2.group(1), res2.group(1) in features)
                     # print(("Modify","Mapping"))
                     return ("Modify","Mapping")
@@ -273,10 +287,14 @@ class SPLClassifier:
             result = []
             if(check == 'Added'):
                 for line in item:
+                    
                     line = (line[0], line[1].strip())
+                    #print(line[1].strip().replace('\t',''))
                     res1 = re.search(r'^\S*\$\((.*)\)\S* := \S*', line[1])
                     res2 = re.search(r'^\S*\$\((.*)\)\S* \+= \S*', line[1])
-                    if((res1 != None and res1.group(1) in features) or (res2 != None and res2.group(1) in features)):
+                    res3 = re.search(r'^\S*\$\((.*)\)\S*:= \S*', line[1].strip().replace('\t',''))
+                    res4 = re.search(r'^\S*\$\((.*)\)\S*\+= \S*', line[1].strip().replace('\t',''))
+                    if((res1 != None and res1.group(1) in features) or (res2 != None and res2.group(1) in features) or (res3 != None and res3.group(1) in features) or (res4 != None and res4.group(1) in features)):
                         partial = ("Added","Mapping")
                         if(partial not in result):
                             result.append(partial)
@@ -291,10 +309,13 @@ class SPLClassifier:
                                 result.append(partial)
             else:
                 for line in item:
+                    #print(line)
                     line = (line[0], line[1].strip())
                     res1 = re.search(r'^\S*\$\((.*)\)\S* := \S*', line[1])
                     res2 = re.search(r'^\S*\$\((.*)\)\S* \+= \S*', line[1])
-                    if((res1 != None and res1.group(1) in features) or (res2 != None and res2.group(1) in features)):
+                    res3 = re.search(r'^\S*\$\((.*)\)\S*:= \S*', line[1].strip().replace('\t',''))
+                    res4 = re.search(r'^\S*\$\((.*)\)\S*\+= \S*', line[1].strip().replace('\t',''))
+                    if((res1 != None and res1.group(1) in features) or (res2 != None and res2.group(1) in features) or (res3 != None and res3.group(1) in features) or (res4 != None and res4.group(1) in features)):
                         partial = ("Remove","Mapping")
                         if(partial not in result):
                             result.append(partial)
