@@ -2,3 +2,4 @@
 /.pytest_cache
 .~lock.automated-results.csv#
 .~lock.automated-results.ods#
+/venv
