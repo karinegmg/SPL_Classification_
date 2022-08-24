@@ -3,3 +3,4 @@
 .~lock.automated-results.csv#
 .~lock.automated-results.ods#
 /venv
+/env
